@@ -30,16 +30,34 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.post('/users/auth', function(req, res){
+app.post('/iuser/auth', function(req, res){
   var userProvider = new UserProvider()
   var login = req.param('login')
   var passwd = req.param("passwd")
-  userProvider.authUser({ login:login, passwd:passwd }
+  userProvider.authiUser({ login:login, passwd:passwd }
     , function(err, result) {
       if(err) throw err
       else {
         res.send(result)
       }
+  })
+})
+app.get('/iuser/list', function(req, res){
+  var userProvider = new UserProvider()
+  userProvider.iUserList(function(err, result) {
+      if(err) throw err
+      else res.send(result)
+  })
+})
+app.get('/iuser/add/:login/:email/:passwd', function(req, res){
+  var userProvider = new UserProvider()
+  var login = req.param('login')
+  var email = req.param('email')
+  var passwd = req.param('passwd')
+  userProvider.addiUser({login:login,email:email,passwd:passwd}
+    , function(err, result) {
+      if(err) throw err
+      else res.send(result)
   })
 
 })
