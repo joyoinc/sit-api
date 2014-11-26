@@ -6,9 +6,10 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-var http = require('http');
+//var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var path = require('path');
-var UserProvider = require('./userProvider-mem.js').UserProvider
 
 var app = express();
 
@@ -30,38 +31,17 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.post('/iuser/auth', function(req, res){
-  var userProvider = new UserProvider()
-  var login = req.param('login')
-  var passwd = req.param("passwd")
-  userProvider.authiUser({ login:login, passwd:passwd }
-    , function(err, result) {
-      if(err) throw err
-      else {
-        res.send(result)
-      }
-  })
-})
-app.get('/iuser/list', function(req, res){
-  var userProvider = new UserProvider()
-  userProvider.iUserList(function(err, result) {
-      if(err) throw err
-      else res.send(result)
-  })
-})
-app.get('/iuser/add/:login/:email/:passwd', function(req, res){
-  var userProvider = new UserProvider()
-  var login = req.param('login')
-  var email = req.param('email')
-  var passwd = req.param('passwd')
-  userProvider.addiUser({login:login,email:email,passwd:passwd}
-    , function(err, result) {
-      if(err) throw err
-      else res.send(result)
-  })
 
-})
+app.get('/iusers', user.allInternalUsers);
+app.post('/iuser/add', user.addInternalUser);
+app.post('/iuser/auth', user.authInternalUser);
 
-http.createServer(app).listen(app.get('port'), function(){
+
+var options = {
+  key:  fs.readFileSync('public/key.pem'),
+  cert: fs.readFileSync('public/key-cert.pem')
+};
+//http.createServer(app);
+https.createServer(options, app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

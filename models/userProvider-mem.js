@@ -14,14 +14,6 @@ var msgs = [
 
 UserProvider = function(){}
 
-/** Begin
- *  add all function definition here
- */
-
-UserProvider.prototype.resetiUserPasswd= function(obj, callback) {
-  callback(null, obj)
-}
-
 UserProvider.prototype.addiUser= function(obj, callback) {
   iUsers.push(obj)
   callback(null, obj)
