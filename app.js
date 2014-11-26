@@ -6,8 +6,8 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
-//var http = require('http');
-var https = require('https');
+var http = require('http');
+//var https = require('https');
 var fs = require('fs');
 var path = require('path');
 
@@ -41,7 +41,9 @@ var options = {
   key:  fs.readFileSync('public/key.pem'),
   cert: fs.readFileSync('public/key-cert.pem')
 };
-//http.createServer(app);
-https.createServer(options, app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+//https.createServer(options, app);
+
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
