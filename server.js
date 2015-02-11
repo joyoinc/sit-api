@@ -4,7 +4,8 @@
  */
 var init = require('./config/init')(),
 	config = require('./config/config'),
-	mongoose = require('mongoose'),
+	//mongoose = require('mongoose'),
+    pg = require('pg'),
 	chalk = require('chalk');
 
 /**
@@ -13,21 +14,16 @@ var init = require('./config/init')(),
  */
 
 // Bootstrap db connection
-var db;
-//var db = mongoose.connect(config.db.uri, config.db.options, function(err) {
-//	if (err) {
-//		console.error(chalk.red('Could not connect to MongoDB!'));
-//		console.log(chalk.red(err));
-//	}
-//});
-//mongoose.connection.on('error', function(err) {
-//	console.error(chalk.red('MongoDB connection error: ' + err));
-//	process.exit(-1);
-//	}
-//);
+var db = pg.connect(config.db.options, function(err) {
+	if (err) {
+		console.error(chalk.red('Could not connect to PostgreSQL DB!'));
+		console.log(chalk.red(err));
+        process.exit(-1);
+	}
+});
 
 // Init the express application
-var app = require('./config/express')(db);
+var app = require('./config/express')();
 
 // Start the app by listening on <port>
 app.listen(config.port);

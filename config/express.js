@@ -73,17 +73,17 @@ module.exports = function(db) {
 	app.use(cookieParser());
 
 	// Express MongoDB session storage
-	app.use(session({
-		saveUninitialized: true,
-		resave: true,
-		secret: config.sessionSecret,
-		//store: new mongoStore({
-		//	db: db.connection.db,
-		//	collection: config.sessionCollection
-		//}),
-		cookie: config.sessionCookie,
-		name: config.sessionName
-	}));
+	//app.use(session({
+	//	saveUninitialized: true,
+	//	resave: true,
+	//	secret: config.sessionSecret,
+	//	//store: new mongoStore({
+	//	//	db: db.connection.db,
+	//	//	collection: config.sessionCollection
+	//	//}),
+	//	cookie: config.sessionCookie,
+	//	name: config.sessionName
+	//}));
 
 	// Globbing routing files
 	config.getGlobbedFiles('./app/routes/**/*.js').forEach(function(routePath) {
