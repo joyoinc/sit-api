@@ -3,13 +3,13 @@
 
 module.exports = {
 	db: {
-		uri: 'postgres://ulldcqzkmyglth:480S6ABz_YURJ4ZMCPJyG5IBgr@ec2-50-17-207-54.compute-1.amazonaws.com:5432/dcu31opgd9pq74',
+		uri: 'postgres://hymmnwaybgiokd:K3uGtah_13qxSiLPt_AVs-uoQ8@ec2-107-21-118-56.compute-1.amazonaws.com:5432/d4hkl3erph71o0',
         options: {
-            user: 'ulldcqzkmyglth',
-            password: '480S6ABz_YURJ4ZMCPJyG5IBgr',
-            database: 'dcu31opgd9pq74',
+            user: 'hymmnwaybgiokd',
+            password: 'K3uGtah_13qxSiLPt_AVs-uoQ8',
+            database: 'd4hkl3erph71o0',
             port: '5432',
-            host: 'ec2-50-17-207-54.compute-1.amazonaws.com',
+            host: 'ec2-107-21-118-56.compute-1.amazonaws.com',
             ssl: true
 		}
 	},
