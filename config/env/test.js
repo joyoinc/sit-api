@@ -10,7 +10,7 @@ module.exports = {
             database: 'dcu31opgd9pq74',
             port: '5432',
             host: 'ec2-50-17-207-54.compute-1.amazonaws.com',
-            ssl: false
+            ssl: true
 		}
 	},
 	log: {
