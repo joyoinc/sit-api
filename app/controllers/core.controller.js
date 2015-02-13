@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var config = require('../../config/config');
-var util = require('util');
-var pg = require('pg');
+var config = require('../../config/config'),
+    util = require('util'),
+    chalk = require('chalk'),
+    pg = require('pg');
 
 exports.index = function(req, res){
   var json = { title: config.app.title, version: config.app.dbVersion };
@@ -19,13 +20,14 @@ exports.endpoints = function(req, res){
       return;
     }
 
-    var sqlCmd = "SELECT * FROM tbl_endpoints";
+    var sqlCmd = 'SELECT * FROM tbl_endpoints';
     client.query(sqlCmd, function(err, result) {
       // call done to release client back to pool
       done();
       var json = null;
       if(err) {
-        json = err;
+        console.error(chalk.red('Query failed!'));
+        json = { name:'error', msg:'failed when query' };
       } else {
         json = result.rows;
       }

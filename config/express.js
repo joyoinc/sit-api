@@ -53,6 +53,8 @@ module.exports = function(db) {
 
 	// Environment dependent middleware
 	if (process.env.NODE_ENV === 'development') {
+		// Disable views cache
+		app.set('view cache', false);
 	} else if (process.env.NODE_ENV === 'production') {
 		app.locals.cache = 'memory';
 	}
@@ -106,6 +108,7 @@ module.exports = function(db) {
 
 	// Assume 404 since no middleware responded
 	app.use(function(req, res) {
+		//res.status(404).json({ name:'error', msg: '404 Not Found'});
 		res.status(404).render('404', {
 			url: req.originalUrl,
 			error: 'Not Found'

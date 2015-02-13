@@ -3,7 +3,7 @@
 
 module.exports = {
 	db: {
-		uri: 'postgres://ulldcqzkmyglth:480S6ABz_YURJ4ZMCPJyG5IBgr@ec2-50-17-207-54.compute-1.amazonaws.com:5432/dcu31opgd9pq74',
+		//uri: 'postgres://ulldcqzkmyglth:480S6ABz_YURJ4ZMCPJyG5IBgr@ec2-50-17-207-54.compute-1.amazonaws.com:5432/dcu31opgd9pq74',
         options: {
             user: 'yuanzh',
             password: 's',
