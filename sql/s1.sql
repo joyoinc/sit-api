@@ -52,3 +52,28 @@ BEGIN
     RETURN 0;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION sp_create_login(login VARCHAR, password VARCHAR) RETURNS INTEGER AS $$
+DECLARE
+    _now TIMESTAMP := NOW();
+    _msg VARCHAR;
+    _uid INTEGER;
+BEGIN
+
+    SELECT MAX(user_id) FROM tbl_logins t INTO _uid;
+
+    IF _uid < 100 THEN
+        _uid = 100;
+    END IF; -- SKIP RESERVED IDS.
+    _uid := _uid + 1;
+
+    INSERT INTO tbl_logins
+    VALUES (login, password, _now, _uid);
+
+    _msg := 'created login : ' || login;
+    INSERT INTO tbl_logs(ts, info)
+    VALUES (_now, _msg);
+
+    RETURN _uid;
+END;
+$$ LANGUAGE plpgsql;

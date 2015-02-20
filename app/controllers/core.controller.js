@@ -71,3 +71,31 @@ exports.authenticateLogin = function(req, res) {
     });
   });
 };
+
+exports.createLogin = function(req, res) {
+  pg.connect(config.db.options, function(err, client, done) {
+    if (err) {
+      console.error(chalk.red('Could not connect to PostgreSQL DB!'));
+      return;
+    }
+
+    var l = req.body.login;
+    var p = req.body.password;
+    // TODO. need to encrypt password.
+
+    var sqlCmd = 'SELECT * FROM sp_create_login($1, $2) AS id';
+    client.query(sqlCmd, [l, p], function(err, result) {
+      // call done to release client back to pool
+      done();
+      var json = { user_id:-1, message:'' };
+      if(err) {
+        console.error(chalk.red('Query failed!'));
+        console.error(err);
+        json.message = 'failed when query';
+      } else {
+        json = { user_id:result.rows[0].id, message:'create login succeed' };
+      }
+      res.json(json);
+    });
+  });
+};

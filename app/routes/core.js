@@ -5,4 +5,5 @@ module.exports = function(app){
   app.route('/').get(core.index);
   app.route('/_apis').get(core.endpoints);
   app.route('/_apis/login/auth').post(core.authenticateLogin);
+  app.route('/_apis/login/create').post(core.createLogin);
 };

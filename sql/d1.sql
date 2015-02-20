@@ -1,5 +1,5 @@
 INSERT INTO tbl_endpoints
-VALUES  ('POST', '/login/auth', 'input: {login, password}, output:{user_id, message}', 'DONE'),
+VALUES  ('POST', '/login/auth', 'input: {login, password}, output:{user_id, message}', 'TODO'),
         ('POST', '/login/create', 'input: {login, password}, output:{user_id, message}', 'TODO');
 
 

@@ -45,5 +45,19 @@ describe('core API tests', function(){
       });
   });
 
+  it('should create login successfully', function(done){
+    var o = {login: 'auto-test-', password:'auto-test'};
+    var r = Math.random() * 10000 + 1;
+    o.login += r;
+    agent.post('/_apis/login/create').send(o).expect(200)
+      .end(function(err, res){
+        if(err) done(err);
+        var obj = res.body;
+        should.exist(obj.user_id);
+        (obj.user_id).should.be.above(0);
+        done();
+      });
+  });
+
   afterEach(function(done){done();});
 });
