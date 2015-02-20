@@ -35,3 +35,39 @@ exports.endpoints = function(req, res){
     });
   });
 };
+
+exports.authenticateLogin = function(req, res) {
+  pg.connect(config.db.options, function(err, client, done) {
+    if (err) {
+      console.error(chalk.red('Could not connect to PostgreSQL DB!'));
+      return;
+    }
+
+    var sqlCmd = 'SELECT * FROM tbl_logins WHERE login=$1';
+    client.query(sqlCmd, [req.body.login], function(err, result) {
+      // call done to release client back to pool
+      done();
+      var json = { user_id:-1, message:'' };
+      if(err) {
+        console.error(chalk.red('Query failed!'));
+        json.message = 'failed when query';
+      } else {
+        if(result.rows.length > 0) {
+          var o = result.rows[0];
+          var p = req.body.password;
+          if(o.user_id >= config.firstRealUser) {// TODO. need to encrypt password.
+          }
+
+          if(o.password !== p) {
+            json.message = 'login/password not match';
+          } else {
+            json = { user_id: o.user_id, message:'authenticate succeed' };
+          }
+        } else {
+          json.message = 'no such login exists';
+        }
+      }
+      res.json(json);
+    });
+  });
+};

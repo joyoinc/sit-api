@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS tbl_endpoints;
+DROP TABLE IF EXISTS tbl_logins;
 DROP TABLE IF EXISTS tbl_accounts;
 DROP TABLE IF EXISTS tbl_logs;
 

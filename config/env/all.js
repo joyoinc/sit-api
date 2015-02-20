@@ -6,6 +6,7 @@ module.exports = {
         title: 'XX-RestAPI',
         dbVersion: '0.1'
     },
+  firstRealUser: 101,
 	port: process.env.PORT || 3000,
 	// The secret should be set to a non-guessable string that
 	// is used to compute a session hash
