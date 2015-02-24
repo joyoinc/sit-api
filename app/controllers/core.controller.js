@@ -5,6 +5,7 @@
  */
 var config = require('../../config/config'),
     util = require('util'),
+    bcrypt = require('bcrypt'),
     chalk = require('chalk'),
     pg = require('pg');
 
@@ -43,28 +44,27 @@ exports.authenticateLogin = function(req, res) {
       return;
     }
 
-    var sqlCmd = 'SELECT * FROM tbl_logins WHERE login=$1';
-    client.query(sqlCmd, [req.body.login], function(err, result) {
+    var l = req.body.login;
+    var p = req.body.password;
+    p = bcrypt.hashSync(p, config.encryptSalt);
+
+    var sqlCmd = 'SELECT * FROM sp_check_login($1, $2) AS id';
+    client.query(sqlCmd, [l, p], function(err, result) {
       // call done to release client back to pool
       done();
-      var json = { user_id:-1, message:'' };
+      var json = { user_id:-1 };
       if(err) {
         console.error(chalk.red('Query failed!'));
-        json.message = 'failed when query';
+        json.error =  { message : 'failed when query' };
       } else {
-        if(result.rows.length > 0) {
-          var o = result.rows[0];
-          var p = req.body.password;
-          if(o.user_id >= config.firstRealUser) {// TODO. need to encrypt password.
-          }
-
-          if(o.password !== p) {
-            json.message = 'login/password not match';
-          } else {
-            json = { user_id: o.user_id, message:'authenticate succeed' };
-          }
+        var o = result.rows[0];
+        if(o.id < 0) {
+          json.error =  { message : 'no such login exists' };
         } else {
-          json.message = 'no such login exists';
+          json.user_id = o.id;
+          if(o.id === 0) {
+            json.error =  { message : 'login/password not match' };
+          }
         }
       }
       res.json(json);
@@ -81,19 +81,19 @@ exports.createLogin = function(req, res) {
 
     var l = req.body.login;
     var p = req.body.password;
-    // TODO. need to encrypt password.
+    p = bcrypt.hashSync(p, config.encryptSalt);
 
     var sqlCmd = 'SELECT * FROM sp_create_login($1, $2) AS id';
     client.query(sqlCmd, [l, p], function(err, result) {
       // call done to release client back to pool
       done();
-      var json = { user_id:-1, message:'' };
+      var json = { user_id:-1 };
       if(err) {
         console.error(chalk.red('Query failed!'));
         console.error(err);
-        json.message = 'failed when query';
+        json.error = { message : 'failed when query' };
       } else {
-        json = { user_id:result.rows[0].id, message:'create login succeed' };
+        json.user_id = result.rows[0].id ;
       }
       res.json(json);
     });

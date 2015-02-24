@@ -111,4 +111,5 @@ module.exports = function(grunt) {
 
 	// Test task.
 	grunt.registerTask('test', ['env:test', 'mochaTest']);
+	grunt.registerTask('devtest', ['mochaTest']);
 };

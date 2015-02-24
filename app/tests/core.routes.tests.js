@@ -21,31 +21,29 @@ describe('core API tests', function(){
       });
   });
 
-  it('should auth success for dummy1', function(done){
+  it('should auth succeed for dummy1', function(done){
     var o = {login: 'dummy1', password:'dummy1'};
     agent.post('/_apis/login/auth').send(o).expect(200)
       .end(function(err, res){
         if(err) done(err);
         var obj = res.body;
-        should.exist(obj.user_id);
-        (obj.user_id).should.be.above(0);
+        should.not.exist(obj.error);
         done();
       });
   });
 
   it('should auth fail for dummy2', function(done){
-    var o = {login: 'dummy2', password:'dummy1'};
+    var o = {login: 'dummy2', password:'dummy2'};
     agent.post('/_apis/login/auth').send(o).expect(200)
       .end(function(err, res){
         if(err) done(err);
         var obj = res.body;
-        should.exist(obj.user_id);
-        (obj.user_id).should.be.below(0);
+        should.exist(obj.error);
         done();
       });
   });
 
-  it('should create login successfully', function(done){
+  it('should create login succeed', function(done){
     var o = {login: 'auto-test-', password:'auto-test'};
     var r = Math.random() * 10000 + 1;
     o.login += r;
@@ -53,8 +51,7 @@ describe('core API tests', function(){
       .end(function(err, res){
         if(err) done(err);
         var obj = res.body;
-        should.exist(obj.user_id);
-        (obj.user_id).should.be.above(0);
+        should.not.exist(obj.error);
         done();
       });
   });
