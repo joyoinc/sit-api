@@ -6,4 +6,8 @@ module.exports = function(app){
   app.route('/_apis').get(core.endpoints);
   app.route('/_apis/login/auth').post(core.authenticateLogin);
   app.route('/_apis/login/create').post(core.createLogin);
+  
+  var oe = require('../../app/controllers/omniEdu.controller');
+  app.route('/_apis/oe/lesson/:id').get(oe.getLesson);
+  app.route('/_apis/oe/course/:id').get(oe.getCourse);
 };

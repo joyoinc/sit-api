@@ -1,3 +1,3 @@
--- To empty the whole DB, use: dropdb <DB> , then createdb <DB> instead.
+-- To empty the whole DB, use: drop database <DB> , then createdb <DB> instead.
 -- This is only for local dev db.
 -- For any remote DB, we should not empty the whole DB.
