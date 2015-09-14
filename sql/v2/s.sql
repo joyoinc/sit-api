@@ -51,8 +51,9 @@ BEGIN
 	FROM 	tbl_omniedu_courses AS c
     	JOIN 		tbl_omniedu_lessons2courses AS m ON m.course_id = c.id
 	JOIN		tbl_omniedu_lessons AS l ON  l.id = m.lesson_id
-    WHERE l.id = lesson_id_ 
-    UNION  SELECT 0 AS course_id, l.title, NULL AS url FROM tbl_omniedu_lessons AS l WHERE id = lesson_id_ ;
+    WHERE l.id = lesson_id_
+    UNION  SELECT 0 AS course_id, l.title, NULL AS url FROM tbl_omniedu_lessons AS l WHERE id = lesson_id_
+    ORDER BY course_id;
     RETURN;
 END;
 $$ LANGUAGE plpgsql;
